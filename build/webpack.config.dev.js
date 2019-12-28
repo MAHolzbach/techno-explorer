@@ -3,6 +3,7 @@
 const webpack = require("webpack");
 const { VueLoaderPlugin } = require("vue-loader");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: "development",
@@ -25,13 +26,18 @@ module.exports = {
       },
       {
         test: /\.styl(us)?$/,
-        use: ["vue-style-loader", "css-loader", "stylus-loader"]
+        use: [MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"]
+      },
+      {
+        test: /\.js$/,
+        use: "babel-loader"
       }
     ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
-    new HtmlWebpackPlugin({ filename: "index.html", template: "index.html", inject: true })
+    new HtmlWebpackPlugin({ filename: "index.html", template: "index.html", inject: true }),
+    new MiniCssExtractPlugin({ filename: "main.css" })
   ]
 };
